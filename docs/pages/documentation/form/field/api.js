@@ -19,7 +19,7 @@ export default [
                 default: '—'
             },
             {
-                name: '<code>label-for</code>',
+                name: '<code>for</code>',
                 description: 'Same as native <code>for</code> set on the label',
                 type: 'String',
                 values: '—',
