@@ -7,7 +7,6 @@
         @keydown.prevent.enter.space="$refs.label.click()">
         <input v-model="newValue"
             type="checkbox"
-            v-bind="$attrs"
             :disabled="disabled"
             :name="name"
             :value="nativeValue"
@@ -21,7 +20,6 @@
 <script>
     export default {
         name: 'bCheckbox',
-        inheritAttrs: false,
         props: {
             value: {},
             nativeValue: {},
