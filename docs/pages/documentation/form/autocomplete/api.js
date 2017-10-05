@@ -3,7 +3,7 @@ export default [
         props: [
             {
                 name: '<code>v-model</code>',
-                description: 'Bindig value',
+                description: 'Binding value',
                 type: 'String, Number',
                 values: '—',
                 default: '—'
@@ -31,7 +31,7 @@ export default [
             },
             {
                 name: '<code>keep-first</code>',
-                description: 'The first option will always be pre-selected (easier to just hit enter)',
+                description: 'The first option will always be pre-selected (easier to just hit enter or tab)',
                 type: 'Boolean',
                 values: '—',
                 default: '<code>false</code>'
@@ -95,7 +95,7 @@ export default [
             {
                 name: '<code>empty</code>',
                 description: 'Show like an option if <code>data</code> array prop is empty',
-                props: ''
+                props: '—'
             }
         ],
         events: [
@@ -134,6 +134,11 @@ export default [
             {
                 name: '<code>focus</code>',
                 description: 'Set focus (internally uses the native <code>.select()</code> method)',
+                return: '—'
+            },
+            {
+                name: '<code>setSelected(selected: Any)</code>',
+                description: 'Select an option by array position (same type of <code>data</code> property)',
                 return: '—'
             }
         ]

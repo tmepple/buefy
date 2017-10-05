@@ -12,6 +12,7 @@
             @focus="focused"
             @blur="$emit('blur', $event)"
             @keyup.native.esc.prevent="isActive = false"
+            @keydown.native.tab="tabPressed"
             @keydown.native.enter.prevent="enterPressed"
             @keydown.native.up.prevent="keyArrows('up')"
             @keydown.native.down.prevent="keyArrows('down')">
@@ -47,7 +48,7 @@
 </template>
 
 <script>
-    import { getValueByPath } from '../../utils/helpers'
+    import { getValueByPath, escapeRegExpChars } from '../../utils/helpers'
     import FormElementMixin from '../../utils/FormElementMixin'
     import Input from '../input'
 
@@ -213,6 +214,19 @@
             },
 
             /**
+             * Tab key listener.
+             * Select hovered option if it exists, close dropdown, then allow
+             * native handling to move to next tabbable element.
+             */
+            tabPressed() {
+                if (this.hovered === null) {
+                    this.isActive = false
+                    return
+                }
+                this.setSelected(this.hovered)
+            },
+
+            /**
              * Close dropdown if clicked outside.
              */
             clickedOutside(event) {
@@ -231,7 +245,8 @@
                     ? getValueByPath(option, this.field)
                     : option
 
-                const regex = new RegExp(`(${this.newValue})`, 'gi')
+                const escapedValue = escapeRegExpChars(this.newValue)
+                const regex = new RegExp(`(${escapedValue})`, 'gi')
 
                 return isHighlight
                     ? value.replace(regex, '<b>$1</b>')

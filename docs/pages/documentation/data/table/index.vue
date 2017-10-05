@@ -7,32 +7,38 @@
         <div class="example">
             <ex-simple></ex-simple>
         </div>
-        <pre class="example-code" v-highlight><code class="html">{{ ExSimpleCode }}</code></pre>
+        <code-view :code="ExSimpleCode" bordered></code-view>
 
         <hr>
         <h2 class="title is-spaced">Selection</h2>
-        <p class="content">
-            You can show a <strong>single selected</strong> row by passing the corresponding object to the <code>selected</code> prop.
-            Additionally, adding the <code>.sync</code> modifier will make it two-way binding — selected object will mutate if user clicks on row.
-        </p>
+        <div class="content">
+            <p>
+                You can show a <strong>single selected</strong> row by passing the corresponding object to the <code>selected</code> prop.
+                Additionally, adding the <code>.sync</code> modifier will make it two-way binding — selected object will mutate if user clicks on row.
+            </p>
+            <p>
+                Selection tables can be focused and used with a keyboard, using <strong>arrow keys</strong> to navigate and <strong>enter</strong> to select.
+            </p>
+        </div>
         <div class="example">
             <ex-selection></ex-selection>
         </div>
-        <pre class="example-code" v-highlight><code class="html">{{ ExSelectionCode }}</code></pre>
+        <code-view :code="ExSelectionCode" bordered></code-view>
 
         <hr>
         <h2 class="title is-spaced">Checkable</h2>
         <div class="content">
             <p>You can add checkboxes to rows by using the <code>checkable</code> prop.</p>
             <p>
-                To show which rows are <strong>checked</strong>, you have to pass the corresponding object array to the <code>checked</code> prop.
+                To show which rows are <strong>checked</strong>, you have to pass the corresponding object array to the <code>checked-rows</code> prop.
                 Adding the <code>.sync</code> modifier will make it two-way binding — checked object array will mutate if user clicks on checkboxes.
             </p>
+            <p>A slot called <code>bottom-left</code> is available whenever the table is checkable or paginated, you can add anything in there.</p>
         </div>
         <div class="example">
             <ex-checkable></ex-checkable>
         </div>
-        <pre class="example-code" v-highlight><code class="html">{{ ExCheckableCode }}</code></pre>
+        <code-view :code="ExCheckableCode" bordered></code-view>
 
         <hr>
         <h2 class="title is-spaced">Pagination and sorting</h2>
@@ -40,18 +46,19 @@
             <p>To make a column sortable, add the <code>sortable</code> prop on it and specify a <code>field</code> name.</p>
             <p>Moreover, use the <code>default-sort</code> prop to determine the default sort column and order. The column must be <code>sortable</code> to work.</p>
             <p>Eventually, use the <code>default-sort-direction</code> prop to determine the default sort column direction on the first click.</p>
+            <p>A slot called <code>bottom-left</code> is available whenever the table is checkable or paginated, you can add anything in there.</p>
         </div>
         <div class="example">
             <ex-pagination-sort></ex-pagination-sort>
         </div>
-        <pre class="example-code" v-highlight><code class="html">{{ ExPaginationSortCode }}</code></pre>
+        <code-view :code="ExPaginationSortCode" bordered></code-view>
 
         <hr>
         <h2 class="title is-spaced">Detailed rows</h2>
         <div class="example">
             <ex-detailed-row></ex-detailed-row>
         </div>
-        <pre class="example-code" v-highlight><code class="html">{{ ExDetailedRowCode }}</code></pre>
+        <code-view :code="ExDetailedRowCode" bordered></code-view>
 
         <hr>
         <h2 class="title is-spaced">Row status</h2>
@@ -59,7 +66,7 @@
         <div class="example">
             <ex-row-status></ex-row-status>
         </div>
-        <pre class="example-code" v-highlight><code class="html">{{ ExRowStatusCode }}</code></pre>
+        <code-view :code="ExRowStatusCode" bordered></code-view>
 
         <hr>
         <h2 class="title is-spaced">Custom headers</h2>
@@ -70,7 +77,7 @@
         <div class="example">
             <ex-custom-headers></ex-custom-headers>
         </div>
-        <pre class="example-code" v-highlight><code class="html">{{ ExCustomHeadersCode }}</code></pre>
+        <code-view :code="ExCustomHeadersCode" bordered></code-view>
 
         <hr>
         <h2 class="title is-spaced">Toggle columns</h2>
@@ -80,7 +87,14 @@
         <div class="example">
             <ex-toggle-columns></ex-toggle-columns>
         </div>
-        <pre class="example-code" v-highlight><code class="html">{{ ExToggleColumnsCode }}</code></pre>
+        <code-view :code="ExToggleColumnsCode" bordered></code-view>
+
+        <hr>
+        <h2 class="title is-spaced">Footer</h2>
+        <div class="example">
+            <ex-footer></ex-footer>
+        </div>
+        <code-view :code="ExFooterCode" bordered></code-view>
 
         <hr>
         <h2 class="title is-spaced">Async data</h2>
@@ -94,7 +108,7 @@
         <div class="example">
             <ex-async-data></ex-async-data>
         </div>
-        <pre class="example-code" v-highlight><code class="html">{{ ExAsyncDataCode }}</code></pre>
+        <code-view :code="ExAsyncDataCode" bordered></code-view>
 
         <hr>
         <h2 class="title is-spaced">API</h2>
@@ -129,6 +143,9 @@
     import ExToggleColumns from './examples/ExToggleColumns'
     import ExToggleColumnsCode from '!!raw-loader!./examples/ExToggleColumns'
 
+    import ExFooter from './examples/ExFooter'
+    import ExFooterCode from '!!raw-loader!./examples/ExFooter'
+
     import ExAsyncData from './examples/ExAsyncData'
     import ExAsyncDataCode from '!!raw-loader!./examples/ExAsyncData'
 
@@ -142,6 +159,7 @@
             ExRowStatus,
             ExCustomHeaders,
             ExToggleColumns,
+            ExFooter,
             ExAsyncData
         },
         data() {
@@ -155,6 +173,7 @@
                 ExRowStatusCode,
                 ExCustomHeadersCode,
                 ExToggleColumnsCode,
+                ExFooterCode,
                 ExAsyncDataCode
             }
         }

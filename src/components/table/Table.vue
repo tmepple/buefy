@@ -29,12 +29,18 @@
         <div class="table-wrapper">
             <table
                 class="table"
+                :tabindex="!selected ? false : 0"
                 :class="{
                     'is-bordered': bordered,
                     'is-striped': striped,
                     'is-narrow': narrowed,
                     'has-mobile-cards': mobileCards
-                }">
+                }"
+                @keyup.prevent.enter="pressedEnter"
+                @keydown.prevent.up="pressedArrow(-1)"
+                @keydown.prevent.down="pressedArrow(1)"
+                @focus="focused"
+                @blur="hovered = null">
                 <thead>
                     <tr>
                         <th v-if="detailed" width="40px"></th>
@@ -65,12 +71,13 @@
                 <tbody v-if="visibleData.length">
                     <template v-for="(row, index) in visibleData">
                         <tr :key="index"
-                            @click="selectRow(row)"
-                            @dblclick="$emit('dblclick', row)"
                             :class="[rowClass(row, index), {
                                 'is-selected': row === selected,
-                                'is-checked': isRowChecked(row)
-                            }]">
+                                'is-checked': isRowChecked(row),
+                                'is-hovered': hovered === row
+                            }]"
+                            @click="selectRow(row)"
+                            @dblclick="$emit('dblclick', row)">
 
                             <td v-if="detailed">
                                 <a role="button" @click.stop="toggleDetails(row)">
@@ -105,14 +112,20 @@
                         </td>
                     </tr>
                 </tbody>
+                <tfoot v-if="$slots.footer !== undefined">
+                    <tr class="table-footer">
+                        <slot name="footer" v-if="hasCustomFooterSlot()"></slot>
+                        <th :colspan="columnCount" v-else>
+                            <slot name="footer"></slot>
+                        </th>
+                    </tr>
+                </tfoot>
             </table>
         </div>
 
         <div v-if="checkable || paginated" class="level">
             <div class="level-left">
-                <div v-if="checkable && this.checkedRows.length > 0" class="level-item">
-                    <p>({{ this.checkedRows.length }})</p>
-                </div>
+                <slot name="bottom-left"></slot>
             </div>
 
             <div class="level-right">
@@ -197,6 +210,7 @@
                 isAsc: true,
                 mobileSort: {},
                 currentPage: 1,
+                hovered: this.selected || null,
                 firstTimeSort: true, // Used by first time initSort
                 _isTable: true // Used by TableColumn
             }
@@ -271,6 +285,13 @@
                 if (columns.length && this.firstTimeSort) {
                     this.initSort()
                     this.firstTimeSort = false
+                } else if (columns.length) {
+                    for (let i = 0; i < columns.length; i++) {
+                        if (columns[i].newKey === this.currentSortColumn.newKey) {
+                            this.currentSortColumn = columns[i]
+                            break
+                        }
+                    }
                 }
             }
         },
@@ -370,7 +391,7 @@
                 if (!updatingData) {
                     this.isAsc = column === this.currentSortColumn
                         ? !this.isAsc
-                        : (this.isAsc = this.defaultSortDirection.toLowerCase() !== 'desc')
+                        : (this.defaultSortDirection.toLowerCase() !== 'desc')
                 }
                 if (!this.firstTimeSort) {
                     this.$emit('sort', column.field, this.isAsc ? 'asc' : 'desc')
@@ -449,6 +470,8 @@
 
                 // Emit new row to update user variable
                 this.$emit('update:selected', row)
+
+                this.hovered = row
             },
 
             /**
@@ -476,6 +499,56 @@
 
             isVisibleDetailRow(index) {
                 return this.visibleDetailRows.indexOf(index) >= 0
+            },
+
+            /**
+             * Check if footer slot has custom content.
+             */
+            hasCustomFooterSlot() {
+                if (this.$slots.footer.length > 1) return true
+
+                const tag = this.$slots.footer[0].tag
+                if (tag !== 'th' && tag !== 'td') return false
+
+                return true
+            },
+
+            /**
+             * Table enter key listener, set selected.
+             */
+            pressedEnter() {
+                if (!this.visibleData.length || !this.hovered) return
+
+                this.selectRow(this.hovered)
+            },
+
+            /**
+             * Table arrow keys listener, change hovered.
+             */
+            pressedArrow(pos) {
+                if (!this.visibleData.length) return
+
+                let index = this.visibleData.indexOf(this.hovered) + pos
+
+                // Prevent from going up from first and down from last
+                index = index < 0
+                    ? 0
+                    : index > this.visibleData.length - 1
+                        ? this.visibleData.length - 1
+                        : index
+
+                this.hovered = this.visibleData[index]
+            },
+
+            /**
+             * Table focus listener, set initial hovered.
+             */
+            focused() {
+                if (!this.visibleData.length) return
+
+                this.hovered = !this.selected || !Object.keys(this.selected).length
+                    ? this.visibleData[0]
+                    : this.selected
             },
 
             /**

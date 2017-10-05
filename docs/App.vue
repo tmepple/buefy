@@ -78,21 +78,36 @@
         }
     }
 
-    // Generic
+    // Highlight (CodeView)
 
-    pre {
-        @include tablet {
-            white-space: pre-wrap;
+    .highlight {
+        position: relative;
+        text-align: left !important;
+        .button {
+            position: absolute;
+            right: 1.5rem;
+            top: 0.5rem;
+            &:hover + pre {
+                background: darken($white-ter, 2.5%);
+            }
         }
-        code {
-            max-height: 400px;
-            &.hljs {
-                background: inherit;
-                color: inherit;
-                padding: 1.25rem 1.5rem;
+        pre {
+            padding: 0;
+            code {
+                max-height: 400px;
+                &.hljs {
+                    background: inherit;
+                    color: inherit;
+                    padding: 1.25rem 1.5rem;
+                }
+            }
+            @include tablet {
+                white-space: pre-wrap;
             }
         }
     }
+
+    // Generic
 
     ::selection {
         background: lighten($primary, 5%);
@@ -138,6 +153,13 @@
         }
     }
 
+    // Header
+
+    .version {
+        flex-direction: column;
+        align-items: left;
+    }
+
     // Temporary fix for https://github.com/jgthms/bulma/issues/837
     .hero.is-primary .hero-head .navbar {
         background: $primary;
@@ -167,12 +189,21 @@
             }
         }
         @include touch {
-            .has-dropdown .navbar-item {
-                &:not(.is-active) {
-                    color: rgba($primary-invert, 0.7) !important;
+            .navbar-end {
+                .navbar-item,
+                .navbar-link {
+                    color: $text;
+                    &:hover {
+                        color: $black;
+                    }
                 }
-                &:hover {
-                    color: $primary-invert !important;
+                .button.is-light {
+                    border-color: $twitter;
+                    color: $twitter;
+                    &:hover {
+                        color: $white;
+                        background: $twitter;
+                    }
                 }
             }
         }

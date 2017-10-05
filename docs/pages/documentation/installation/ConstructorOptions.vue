@@ -5,8 +5,8 @@
 
         <hr>
 
-        <div class="example">
-            <pre v-highlight><code class="javascript">{{ usage | pre }}</code></pre>
+        <div class="example is-paddingless">
+            <code-view :code="usage | pre" lang="javascript"></code-view>
         </div>
 
         <hr>
@@ -64,6 +64,20 @@
                         default: '<code>body</code>'
                     },
                     {
+                        name: '<code>defaultDialogConfirmText</code>',
+                        description: `Default dialog <code>confirmText</code> attribute`,
+                        type: 'String',
+                        values: '—',
+                        default: '<code></code>'
+                    },
+                    {
+                        name: '<code>defaultDialogCancelText</code>',
+                        description: `Default dialog <code>cancelText</code> attribute`,
+                        type: 'String',
+                        values: '—',
+                        default: '<code></code>'
+                    },
+                    {
                         name: '<code>defaultSnackbarDuration</code>',
                         description: `Default snackbar <code>duration</code> attribute.`,
                         type: 'Number',
@@ -112,6 +126,27 @@
                         name: '<code>defaultDateParser</code>',
                         description: `Default datepicker <code>date-parser</code> attribute`,
                         type: 'Function',
+                        values: '—',
+                        default: '<code></code>'
+                    },
+                    {
+                        name: '<code>defaultDayNames</code>',
+                        description: `Default datepicker <code>day-names</code> attribute`,
+                        type: 'Array',
+                        values: '—',
+                        default: '<code></code>'
+                    },
+                    {
+                        name: '<code>defaultMonthNames</code>',
+                        description: `Default datepicker <code>month-names</code> attribute`,
+                        type: 'Array',
+                        values: '—',
+                        default: '<code></code>'
+                    },
+                    {
+                        name: '<code>defaultFirstDayOfWeek</code>',
+                        description: `Default datepicker <code>first-day-of-week</code> attribute`,
+                        type: 'Number',
                         values: '—',
                         default: '<code></code>'
                     }

@@ -9,11 +9,12 @@
 
                 <section class="modal-card-body" :class="{ 'is-titleless': !title, 'is-flex': hasIcon }">
                     <div class="media">
-                        <div class="media-left" v-if="icon && hasIcon">
+                        <div class="media-left" v-if="hasIcon">
                             <b-icon
-                                :icon="icon"
+                                :icon="icon ? icon : iconByTpe"
+                                :pack="iconPack"
                                 :class="type"
-                                both
+                                :both="!icon"
                                 size="is-large custom-icon">
                             </b-icon>
                         </div>
@@ -53,6 +54,7 @@
 
 <script>
     import Icon from '../icon'
+    import config from '../../utils/config'
     import { removeElement } from '../../utils/helpers'
 
     export default {
@@ -62,6 +64,8 @@
         props: {
             title: String,
             message: String,
+            icon: String,
+            iconPack: String,
             hasIcon: Boolean,
             type: {
                 type: String,
@@ -69,11 +73,17 @@
             },
             confirmText: {
                 type: String,
-                default: 'OK'
+                default: () => {
+                    return config.defaultDialogConfirmText
+                        ? config.defaultDialogConfirmText : 'OK'
+                }
             },
             cancelText: {
                 type: String,
-                default: 'Cancel'
+                default: () => {
+                    return config.defaultDialogCancelText
+                        ? config.defaultDialogCancelText : 'Cancel'
+                }
             },
             animation: {
                 type: String,
@@ -107,7 +117,7 @@
             /**
              * Icon name (MDI) based on the type.
              */
-            icon() {
+            iconByTpe() {
                 switch (this.type) {
                     case 'is-info':
                         return 'info'

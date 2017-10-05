@@ -156,7 +156,17 @@ export default [
             {
                 name: '<code>empty</code>',
                 description: 'Replaces table body when <code>data</code> array prop is empty',
-                props: ''
+                props: '—'
+            },
+            {
+                name: '<code>footer</code>',
+                description: 'Table custom footer',
+                props: '—'
+            },
+            {
+                name: '<code>bottom-left</code>',
+                description: 'Custom bottom-left (opposite side of pagination)',
+                props: '—'
             }
         ],
         events: [
